@@ -1,7 +1,7 @@
-import Appbar from "./components/appbar/Appbar";
+import Home from "./pages/Home";
 
 function App() {
-  return <Appbar />;
+  return <Home />;
 }
 
 export default App;
