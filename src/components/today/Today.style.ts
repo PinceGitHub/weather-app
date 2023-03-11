@@ -1,8 +1,16 @@
 import { styled } from "@mui/material/styles";
-import { Box, CardHeader, CardContent, Typography } from "@mui/material";
+import {
+  Box,
+  CardHeader,
+  CardContent,
+  Typography,
+  ListItem,
+} from "@mui/material";
 
 export const TodayContainer = styled(Box)(() => ({
-  margin: "25px auto 0 auto",
+  marginLeft: "auto",
+  marginRight: "auto",
+  padding: "25px 0",
   width: "80vw",
 }));
 
@@ -47,4 +55,9 @@ export const StyledTypography = styled(Typography)(() => ({
   fontWeight: "500",
   fontSize: "1rem",
   marginLeft: "10px",
+}));
+
+export const StyledListItem = styled(ListItem)(() => ({
+  justifyContent: "space-between",
+  borderBottom: "1px solid",
 }));
