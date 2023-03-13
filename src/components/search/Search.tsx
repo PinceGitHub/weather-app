@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Search as SearchIcon } from "@mui/icons-material";
 import {
   SearchWrapper,
@@ -6,8 +6,11 @@ import {
   SearchAutoComplete,
   SearchInputField,
 } from "./Search.style";
-import data from "../../mock-data/searched-city-list";
+import useSnackbar from "../../hooks/useSnackbar";
+import { GlobalContext } from "../../contexts/GlobalContext";
+import { fetchCities } from "../../services/weather";
 
+//types*************************************
 type SearchType = {
   id: number;
   name: string;
@@ -18,18 +21,67 @@ type SearchType = {
 };
 
 const Search = () => {
-  const [searchText, setSearchText] = useState("");
+  //custom hooks***************************************
+  const snackbar = useSnackbar();
+
+  //states*************************************************
+  const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState<Array<SearchType>>([]);
 
-  useEffect(() => {
-    try {
-      if (searchText !== "" && searchText.length >= 3) {
-        setSuggestions(data);
+  //context*************************************************
+  const globalContext = useContext(GlobalContext);
+
+  //search cities********************************************
+  const searchCities = async () => {
+    if (searchTerm.length >= 3) {
+      try {
+        const resp = await fetchCities(searchTerm);
+
+        if (resp.success) {
+          setSuggestions(resp.data);
+        } else {
+          snackbar({
+            show: true,
+            messageType: "error",
+            message: resp.data.message,
+          });
+        }
+      } catch (error: any) {
+        snackbar({
+          show: true,
+          messageType: "error",
+          message: error.message,
+        });
       }
-    } catch (error: any) {
-      alert(error.message);
+    } else if (searchTerm.length < 3 && suggestions.length > 0) {
+      setSuggestions([]);
     }
-  }, [searchText]);
+  };
+
+  //effects*****************************************
+  useEffect(() => {
+    const handleSearchCities = async () => {
+      await searchCities();
+    };
+
+    handleSearchCities();
+    // eslint-disable-next-line
+  }, [searchTerm]);
+
+  //select city********************************************
+  const handleSelectCity = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: any
+  ) => {
+    globalContext.setGlobalState((prev) => ({
+      ...prev,
+      location: {
+        city: value.name,
+        latitude: value.lat,
+        longitude: value.lon,
+      },
+    }));
+  };
 
   return (
     <SearchWrapper>
@@ -39,17 +91,19 @@ const Search = () => {
       <SearchAutoComplete
         freeSolo
         disableClearable
-        options={suggestions.map((suggestion: SearchType) => {
-          return `${suggestion.name}, ${suggestion.region}, ${suggestion.country}`;
-        })}
+        options={suggestions}
+        getOptionLabel={(option: any) =>
+          `${option.name}, ${option.region}, ${option.country}`
+        }
+        onChange={(e, v) => handleSelectCity(e, v)}
         renderInput={(params) => (
           <SearchInputField
-            onChange={(e) => setSearchText(e.currentTarget.value)}
             {...params}
             placeholder="Search City or Zip Code"
             InputProps={{
               ...params.InputProps,
             }}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         )}
       />

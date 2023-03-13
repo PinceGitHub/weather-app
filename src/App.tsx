@@ -1,11 +1,14 @@
 import Home from "./pages/Home";
+import { GlobalProvider } from "./contexts/GlobalContext";
 import { SnackbarProvider } from "./contexts/SnackbarContext";
 
 function App() {
   return (
-    <SnackbarProvider>
-      <Home />
-    </SnackbarProvider>
+    <GlobalProvider>
+      <SnackbarProvider>
+        <Home />
+      </SnackbarProvider>
+    </GlobalProvider>
   );
 }
 
