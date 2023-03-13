@@ -1,7 +1,7 @@
 import { styled, alpha } from "@mui/material/styles";
 import { Stack, Autocomplete, TextField } from "@mui/material";
 
-export const SearchContainer = styled(Stack)(({ theme }) => ({
+export const SearchWrapper = styled(Stack)(({ theme }) => ({
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "flex-start",
@@ -19,9 +19,15 @@ export const SearchIconWrapper = styled(Stack)(({ theme }) => ({
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "center",
+  [theme.breakpoints.up("xs")]: {
+    display: "none",
+  },
+  [theme.breakpoints.up("sm")]: {
+    display: "block",
+  },
 }));
 
-export const StyledAutoComplete = styled(Autocomplete)(({ theme }) => ({
+export const SearchAutoComplete = styled(Autocomplete)(({ theme }) => ({
   "&": {
     width: "100%",
   },

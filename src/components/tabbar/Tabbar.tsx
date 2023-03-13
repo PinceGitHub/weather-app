@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Hourly from "../hourly/Hourly";
-import Today from "../today/Today";
 import { TabbarContainer, StyledTabs, StyledTab } from "./Tabbar.style";
+import Today from "../today/Today";
+import Hourly from "../hourly/Hourly";
 
 const Tabbar = () => {
   const [value, setValue] = useState(0);

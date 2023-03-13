@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Search as SearchIcon } from "@mui/icons-material";
 import {
-  SearchContainer,
+  SearchWrapper,
   SearchIconWrapper,
-  StyledAutoComplete,
+  SearchAutoComplete,
   SearchInputField,
 } from "./Search.style";
 import data from "../../mock-data/searched-city-list";
@@ -32,11 +32,11 @@ const Search = () => {
   }, [searchText]);
 
   return (
-    <SearchContainer>
-      <SearchIconWrapper sx={{ display: { xs: "none", sm: "block" } }}>
+    <SearchWrapper>
+      <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
-      <StyledAutoComplete
+      <SearchAutoComplete
         freeSolo
         disableClearable
         options={suggestions.map((suggestion: SearchType) => {
@@ -53,7 +53,7 @@ const Search = () => {
           />
         )}
       />
-    </SearchContainer>
+    </SearchWrapper>
   );
 };
 

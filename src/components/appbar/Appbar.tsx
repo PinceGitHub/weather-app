@@ -1,58 +1,42 @@
-import {
-  Toolbar,
-  Typography,
-  Stack,
-  Box,
-  ToggleButtonGroup,
-} from "@mui/material";
-import { StyledAppBar, StyledToggleButton } from "./Appbar.style";
-import Search from "../search/Search";
 import { useState } from "react";
+import { Toolbar, ToggleButtonGroup } from "@mui/material";
+import {
+  AppbarContainer,
+  ToolbarWrapper,
+  AppTitle,
+  SearchContainer,
+  UOMWrapper,
+  UOMToggleButton,
+} from "./Appbar.style";
+import Search from "../search/Search";
 
 const Appbar = () => {
   const [selectedUOM, setSelectedUOM] = useState("celcius");
 
   return (
-    <StyledAppBar>
+    <AppbarContainer>
       <Toolbar>
-        <Stack
-          width="100%"
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Typography
-            flex="1"
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
-          >
+        <ToolbarWrapper>
+          <AppTitle variant="h6" noWrap>
             Weather App
-          </Typography>
-          <Box flex={{ xs: "3", sm: "1" }}>
+          </AppTitle>
+          <SearchContainer>
             <Search />
-          </Box>
-          <Stack
-            flex="1"
-            ml={{ xs: "5px" }}
-            flexDirection="row"
-            alignItems="center"
-            justifyContent="flex-end"
-          >
+          </SearchContainer>
+          <UOMWrapper>
             <ToggleButtonGroup
               value={selectedUOM}
               exclusive
               onChange={(e, v) => setSelectedUOM(v)}
               aria-label="Platform"
             >
-              <StyledToggleButton value="celcius">&#8451;</StyledToggleButton>
-              <StyledToggleButton value="farhenite">&#8457;</StyledToggleButton>
+              <UOMToggleButton value="celcius">&#8451;</UOMToggleButton>
+              <UOMToggleButton value="farhenite">&#8457;</UOMToggleButton>
             </ToggleButtonGroup>
-          </Stack>
-        </Stack>
+          </UOMWrapper>
+        </ToolbarWrapper>
       </Toolbar>
-    </StyledAppBar>
+    </AppbarContainer>
   );
 };
 

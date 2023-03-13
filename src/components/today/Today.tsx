@@ -1,18 +1,25 @@
+import { Card, List } from "@mui/material";
 import {
   TodayContainer,
-  StyledCardHeader,
+  HeaderContainer,
+  HeaderWrapper,
   HeaderText,
   SubHeadertext,
-  StyledCardContent,
+  BodyContainer,
+  BodyWrapper,
+  CurrentCondition,
   ConditionImg,
   ConditionText,
-  StyledImg,
-  StyledTypography,
-  StyledListItem,
+  CurrentTemp,
+  Temp,
+  AstroWrapper,
+  AstroIconWrapper,
+  AstroIcon,
+  IconText,
+  ListContainer,
+  ListIconItem,
+  IconWrapper,
 } from "./Today.style";
-import { Card, Stack, Typography, Box, List } from "@mui/material";
-import Sunrise from "./icons/sunrise.svg";
-import Sunset from "./icons/sunset.svg";
 import {
   Air,
   Brightness2,
@@ -23,195 +30,125 @@ import {
   Thermostat,
   Visibility,
 } from "@mui/icons-material";
+import Sunrise from "./icons/sunrise.svg";
+import Sunset from "./icons/sunset.svg";
 
 const Today = () => {
   return (
     <TodayContainer>
       <Card>
-        <StyledCardHeader
+        <HeaderContainer
           title={
-            <Stack
-              flexDirection="row"
-              alignItems="center"
-              justifyContent="space-between"
-              flexWrap="wrap"
-            >
+            <HeaderWrapper>
               <HeaderText>Bareilly, Uttar Pradesh, India</HeaderText>
-              <SubHeadertext>2023-03-11 11:13</SubHeadertext>
-            </Stack>
+              <SubHeadertext>As of 2023-03-11 11:13</SubHeadertext>
+            </HeaderWrapper>
           }
         />
-        <StyledCardContent>
-          <Stack flexDirection={{ md: "row", sm: "column", xs: "column" }}>
-            <Stack
-              flex="1"
-              flexDirection="row"
-              alignItems="center"
-              justifyContent={{ md: "flex-start", sm: "center", xs: "center" }}
-            >
+        <BodyContainer>
+          <BodyWrapper>
+            <CurrentCondition>
               <ConditionImg
                 src="//cdn.weatherapi.com/weather/64x64/day/113.png"
                 alt="Sunny"
                 title="Sunny"
               />
               <ConditionText>Sunny</ConditionText>
-            </Stack>
-            <Stack
-              flex="1"
-              flexDirection="row"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Typography sx={{ fontWeight: "500", fontSize: "5rem" }}>
-                34.9°
-              </Typography>
-            </Stack>
-            <Stack
-              flex="1"
-              flexDirection={{ md: "column", sm: "row", xs: "column" }}
-              alignItems={{ md: "flex-end", sm: "center", xs: "center" }}
-              justifyContent={{
-                md: "center",
-                sm: "space-evenly",
-                xs: "center",
-              }}
-            >
-              <Stack
-                flexDirection="row"
-                alignItems="end"
-                justifyContent="space-between"
-              >
-                <StyledImg src={Sunrise} alt="Sunrise" title="Sunrise" />
-                <StyledTypography>05:50 AM</StyledTypography>
-              </Stack>
-              <Stack
-                flexDirection="row"
-                alignItems="end"
-                justifyContent="space-between"
-                mt="5px"
-              >
-                <StyledImg src={Sunset} alt="Sunset" title="Sunset" />
-                <StyledTypography>05:44 PM</StyledTypography>
-              </Stack>
-            </Stack>
-          </Stack>
-        </StyledCardContent>
+            </CurrentCondition>
+            <CurrentTemp>
+              <Temp>34.9°</Temp>
+            </CurrentTemp>
+            <AstroWrapper>
+              <AstroIconWrapper>
+                <AstroIcon src={Sunrise} alt="Sunrise" title="Sunrise" />
+                <IconText>05:50 AM</IconText>
+              </AstroIconWrapper>
+              <AstroIconWrapper mt="5px">
+                <AstroIcon src={Sunset} alt="Sunset" title="Sunset" />
+                <IconText>05:44 PM</IconText>
+              </AstroIconWrapper>
+            </AstroWrapper>
+          </BodyWrapper>
+        </BodyContainer>
       </Card>
       <Card sx={{ mt: 2 }}>
-        <StyledCardHeader
+        <HeaderContainer
           title={
-            <Stack
-              flexDirection="row"
-              alignItems="center"
-              justifyContent="space-between"
-              flexWrap="wrap"
-            >
+            <HeaderWrapper>
               <HeaderText>
                 Weather today in Bareilly, Uttar Pradesh, India
               </HeaderText>
-            </Stack>
+            </HeaderWrapper>
           }
         />
-        <StyledCardContent>
-          <Stack flexDirection={{ md: "row", sm: "column", xs: "column" }}>
-            <Box flex="1" sx={{ mr: { md: 2 } }}>
+        <BodyContainer>
+          <BodyWrapper>
+            <ListContainer sx={{ mr: { md: 2 } }}>
               <List>
-                <StyledListItem>
-                  <Stack
-                    flexDirection="row"
-                    alignItems="end"
-                    justifyContent="space-between"
-                  >
+                <ListIconItem>
+                  <IconWrapper>
                     <Thermostat />
-                    <StyledTypography>High / Low</StyledTypography>
-                  </Stack>
-                  <StyledTypography>36.1° / 15.9°</StyledTypography>
-                </StyledListItem>
-                <StyledListItem>
-                  <Stack
-                    flexDirection="row"
-                    alignItems="end"
-                    justifyContent="space-between"
-                  >
+                    <IconText>High / Low</IconText>
+                  </IconWrapper>
+                  <IconText>36.1° / 15.9°</IconText>
+                </ListIconItem>
+                <ListIconItem>
+                  <IconWrapper>
                     <Opacity />
-                    <StyledTypography>Humidity</StyledTypography>
-                  </Stack>
-                  <StyledTypography>14%</StyledTypography>
-                </StyledListItem>
-                <StyledListItem>
-                  <Stack
-                    flexDirection="row"
-                    alignItems="end"
-                    justifyContent="space-between"
-                  >
+                    <IconText>Humidity</IconText>
+                  </IconWrapper>
+                  <IconText>14%</IconText>
+                </ListIconItem>
+                <ListIconItem>
+                  <IconWrapper>
                     <Compress />
-                    <StyledTypography>Pressure</StyledTypography>
-                  </Stack>
-                  <StyledTypography>1011 mb</StyledTypography>
-                </StyledListItem>
-                <StyledListItem>
-                  <Stack
-                    flexDirection="row"
-                    alignItems="end"
-                    justifyContent="space-between"
-                  >
+                    <IconText>Pressure</IconText>
+                  </IconWrapper>
+                  <IconText>1011 mb</IconText>
+                </ListIconItem>
+                <ListIconItem>
+                  <IconWrapper>
                     <Visibility />
-                    <StyledTypography>Visibility</StyledTypography>
-                  </Stack>
-                  <StyledTypography>10 km</StyledTypography>
-                </StyledListItem>
+                    <IconText>Visibility</IconText>
+                  </IconWrapper>
+                  <IconText>10 km</IconText>
+                </ListIconItem>
               </List>
-            </Box>
-            <Box flex="1">
+            </ListContainer>
+            <ListContainer>
               <List>
-                <StyledListItem>
-                  <Stack
-                    flexDirection="row"
-                    alignItems="end"
-                    justifyContent="space-between"
-                  >
+                <ListIconItem>
+                  <IconWrapper>
                     <Air />
-                    <StyledTypography>Wind</StyledTypography>
-                  </Stack>
-                  <StyledTypography>11.2 kph</StyledTypography>
-                </StyledListItem>
-                <StyledListItem>
-                  <Stack
-                    flexDirection="row"
-                    alignItems="end"
-                    justifyContent="space-between"
-                  >
+                    <IconText>Wind</IconText>
+                  </IconWrapper>
+                  <IconText>11.2 kph</IconText>
+                </ListIconItem>
+                <ListIconItem>
+                  <IconWrapper>
                     <Cloud />
-                    <StyledTypography>Cloud Cover</StyledTypography>
-                  </Stack>
-                  <StyledTypography>0%</StyledTypography>
-                </StyledListItem>
-                <StyledListItem>
-                  <Stack
-                    flexDirection="row"
-                    alignItems="end"
-                    justifyContent="space-between"
-                  >
+                    <IconText>Cloud Cover</IconText>
+                  </IconWrapper>
+                  <IconText>0%</IconText>
+                </ListIconItem>
+                <ListIconItem>
+                  <IconWrapper>
                     <Brightness5 />
-                    <StyledTypography>UV Index</StyledTypography>
-                  </Stack>
-                  <StyledTypography>8 of 10</StyledTypography>
-                </StyledListItem>
-                <StyledListItem>
-                  <Stack
-                    flexDirection="row"
-                    alignItems="end"
-                    justifyContent="space-between"
-                  >
+                    <IconText>UV Index</IconText>
+                  </IconWrapper>
+                  <IconText>8 of 10</IconText>
+                </ListIconItem>
+                <ListIconItem>
+                  <IconWrapper>
                     <Brightness2 />
-                    <StyledTypography>Phase</StyledTypography>
-                  </Stack>
-                  <StyledTypography>Waning Gibbous</StyledTypography>
-                </StyledListItem>
+                    <IconText>Phase</IconText>
+                  </IconWrapper>
+                  <IconText>Waning Gibbous</IconText>
+                </ListIconItem>
               </List>
-            </Box>
-          </Stack>
-        </StyledCardContent>
+            </ListContainer>
+          </BodyWrapper>
+        </BodyContainer>
       </Card>
     </TodayContainer>
   );
