@@ -1,7 +1,12 @@
 import Home from "./pages/Home";
+import { SnackbarProvider } from "./contexts/SnackbarContext";
 
 function App() {
-  return <Home />;
+  return (
+    <SnackbarProvider>
+      <Home />
+    </SnackbarProvider>
+  );
 }
 
 export default App;
