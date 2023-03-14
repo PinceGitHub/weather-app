@@ -1,5 +1,6 @@
-import { Card, List } from "@mui/material";
 import {
+  SkeletonContainer,
+  TodaySkeleton,
   TodayContainer,
   HeaderContainer,
   HeaderWrapper,
@@ -32,9 +33,82 @@ import {
 } from "@mui/icons-material";
 import Sunrise from "./icons/sunrise.svg";
 import Sunset from "./icons/sunset.svg";
+import useGlobal from "../../hooks/useGlobal";
+import useSnackbar from "../../hooks/useSnackbar";
+import { useState } from "react";
+import { useQuery } from "react-query";
+import { Card, List } from "@mui/material";
+import { fetchWeatherData } from "../../services/weather";
+
+//types*************************************
+type TodayType = {
+  name: string;
+  region: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+  localTime: string;
+  conditionText: string;
+  conditionIcon: string;
+  sunrise: string;
+  sunset: string;
+  moonPhase: string;
+  humidity: number;
+  cloud: number;
+  windDir: string;
+  uv: number;
+  temp: number;
+  pressure: number;
+  pressureUOM: string;
+  visibility: number;
+  visibilityUOM: string;
+  wind: number;
+  windUOM: string;
+  maxTemp: number;
+  minTemp: number;
+};
 
 const Today = () => {
-  return (
+  //custom hooks***************************************
+  const global = useGlobal().globalState;
+  const snackbar = useSnackbar();
+
+  //states*************************************************
+  const [weatherData, setWeatherData] = useState<TodayType | null>(null);
+
+  //fetch data
+  useQuery(
+    ["today-weather", global.location],
+    () => {
+      return fetchWeatherData(global.location);
+    },
+    {
+      onSuccess: (resp) => {
+        if (resp.success) {
+          setWeatherData(resp.data);
+        } else {
+          snackbar({
+            show: true,
+            messageType: "error",
+            message: resp.data.message,
+          });
+        }
+      },
+      onError: (error: any) => {
+        snackbar({
+          show: true,
+          messageType: "error",
+          message: error.message,
+        });
+      },
+    }
+  );
+
+  return !weatherData ? (
+    <SkeletonContainer>
+      <TodaySkeleton />
+    </SkeletonContainer>
+  ) : (
     <TodayContainer>
       <Card>
         <HeaderContainer
