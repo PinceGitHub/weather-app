@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { Search as SearchIcon } from "@mui/icons-material";
 import {
   SearchWrapper,
@@ -6,8 +6,8 @@ import {
   SearchAutoComplete,
   SearchInputField,
 } from "./Search.style";
+import useGlobal from "../../hooks/useGlobal";
 import useSnackbar from "../../hooks/useSnackbar";
-import { GlobalContext } from "../../contexts/GlobalContext";
 import { fetchCities } from "../../services/weather";
 
 //types*************************************
@@ -22,14 +22,12 @@ type SearchType = {
 
 const Search = () => {
   //custom hooks***************************************
+  const global = useGlobal();
   const snackbar = useSnackbar();
 
   //states*************************************************
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState<Array<SearchType>>([]);
-
-  //context*************************************************
-  const globalContext = useContext(GlobalContext);
 
   //search cities********************************************
   const searchCities = async () => {
@@ -69,11 +67,8 @@ const Search = () => {
   }, [searchTerm]);
 
   //select city********************************************
-  const handleSelectCity = (
-    event: React.SyntheticEvent<Element, Event>,
-    value: any
-  ) => {
-    globalContext.setGlobalState((prev) => ({
+  const handleSelectCity = (value: any) => {
+    global.setGlobalState((prev) => ({
       ...prev,
       location: {
         city: value.name,
@@ -95,7 +90,7 @@ const Search = () => {
         getOptionLabel={(option: any) =>
           `${option.name}, ${option.region}, ${option.country}`
         }
-        onChange={(e, v) => handleSelectCity(e, v)}
+        onChange={(e, v) => handleSelectCity(v)}
         renderInput={(params) => (
           <SearchInputField
             {...params}

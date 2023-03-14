@@ -120,7 +120,7 @@ const Today = () => {
 
   //fetch data*************************************************************
   useQuery(
-    ["today-weather", global.location],
+    ["today-weather", global],
     () => {
       return fetchWeatherData(global.location);
     },

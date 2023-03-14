@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Toolbar, ToggleButtonGroup } from "@mui/material";
 import {
   AppbarContainer,
@@ -9,9 +8,17 @@ import {
   UOMToggleButton,
 } from "./Appbar.style";
 import Search from "../search/Search";
+import useGlobal from "../../hooks/useGlobal";
 
 const Appbar = () => {
-  const [selectedUOM, setSelectedUOM] = useState("celcius");
+  const global = useGlobal();
+
+  const handleOnChangeUOM = (uom: any) => {
+    global.setGlobalState((prev) => ({
+      ...prev,
+      uom,
+    }));
+  };
 
   return (
     <AppbarContainer>
@@ -25,13 +32,13 @@ const Appbar = () => {
           </SearchContainer>
           <UOMWrapper>
             <ToggleButtonGroup
-              value={selectedUOM}
+              value={global.globalState.uom}
               exclusive
-              onChange={(e, v) => setSelectedUOM(v)}
+              onChange={(e, v) => handleOnChangeUOM(v)}
               aria-label="Platform"
             >
-              <UOMToggleButton value="celcius">&#8451;</UOMToggleButton>
-              <UOMToggleButton value="farhenite">&#8457;</UOMToggleButton>
+              <UOMToggleButton value="C">&#8451;</UOMToggleButton>
+              <UOMToggleButton value="F">&#8457;</UOMToggleButton>
             </ToggleButtonGroup>
           </UOMWrapper>
         </ToolbarWrapper>
