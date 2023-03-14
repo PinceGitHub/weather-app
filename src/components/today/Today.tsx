@@ -40,7 +40,7 @@ import { useQuery } from "react-query";
 import { Card, List } from "@mui/material";
 import { fetchWeatherData } from "../../services/weather";
 
-//types*************************************
+//types****************************************************
 type TodayType = {
   name: string;
   region: string;
@@ -55,7 +55,6 @@ type TodayType = {
   moonPhase: string;
   humidity: number;
   cloud: number;
-  windDir: string;
   uv: number;
   temp: number;
   pressure: number;
@@ -69,14 +68,57 @@ type TodayType = {
 };
 
 const Today = () => {
-  //custom hooks***************************************
+  //custom hooks***********************************************************
   const global = useGlobal().globalState;
   const snackbar = useSnackbar();
 
-  //states*************************************************
+  //states*****************************************************************
   const [weatherData, setWeatherData] = useState<TodayType | null>(null);
 
-  //fetch data
+  //success callback*******************************************************
+  const handleOnSuccess = (data: any) => {
+    try {
+      const location = data.location;
+      const current = data.current;
+      const day = data.forecast.forecastday[0].day;
+      const astro = data.forecast.forecastday[0].astro;
+
+      setWeatherData({
+        name: location.name,
+        region: location.region,
+        country: location.country,
+        latitude: location.lat,
+        longitude: location.lon,
+        localTime: location.localtime,
+        conditionText: current.condition.text,
+        conditionIcon: current.condition.icon,
+        sunrise: astro.sunrise,
+        sunset: astro.sunset,
+        moonPhase: astro.moon_phase,
+        humidity: current.humidity,
+        cloud: current.cloud,
+        uv: current.uv,
+        temp: global.uom === "C" ? current.temp_c : current.temp_f,
+        pressure:
+          global.uom === "C" ? current.pressure_mb : current.pressure_in,
+        pressureUOM: global.uom === "C" ? "mb" : "in",
+        visibility: global.uom === "C" ? current.vis_km : current.vis_miles,
+        visibilityUOM: global.uom === "C" ? "km" : "miles",
+        wind: global.uom === "C" ? current.wind_kph : current.wind_mph,
+        windUOM: global.uom === "C" ? "kph" : "mph",
+        maxTemp: global.uom === "C" ? day.maxtemp_c : day.maxtemp_f,
+        minTemp: global.uom === "C" ? day.mintemp_c : day.mintemp_f,
+      });
+    } catch (error: any) {
+      snackbar({
+        show: true,
+        messageType: "error",
+        message: error.message,
+      });
+    }
+  };
+
+  //fetch data*************************************************************
   useQuery(
     ["today-weather", global.location],
     () => {
@@ -85,7 +127,7 @@ const Today = () => {
     {
       onSuccess: (resp) => {
         if (resp.success) {
-          setWeatherData(resp.data);
+          handleOnSuccess(resp.data);
         } else {
           snackbar({
             show: true,
@@ -114,8 +156,8 @@ const Today = () => {
         <HeaderContainer
           title={
             <HeaderWrapper>
-              <HeaderText>Bareilly, Uttar Pradesh, India</HeaderText>
-              <SubHeadertext>As of 2023-03-11 11:13</SubHeadertext>
+              <HeaderText>{`${weatherData.name}, ${weatherData.region}, ${weatherData.country}`}</HeaderText>
+              <SubHeadertext>{`As of ${weatherData.localTime} (localtime)`}</SubHeadertext>
             </HeaderWrapper>
           }
         />
@@ -123,23 +165,23 @@ const Today = () => {
           <BodyWrapper>
             <CurrentCondition>
               <ConditionImg
-                src="//cdn.weatherapi.com/weather/64x64/day/113.png"
-                alt="Sunny"
-                title="Sunny"
+                src={weatherData.conditionIcon}
+                alt={weatherData.conditionText}
+                title={weatherData.conditionText}
               />
-              <ConditionText>Sunny</ConditionText>
+              <ConditionText>{weatherData.conditionText}</ConditionText>
             </CurrentCondition>
             <CurrentTemp>
-              <Temp>34.9°</Temp>
+              <Temp>{`${weatherData.temp}°`}</Temp>
             </CurrentTemp>
             <AstroWrapper>
               <AstroIconWrapper>
                 <AstroIcon src={Sunrise} alt="Sunrise" title="Sunrise" />
-                <IconText>05:50 AM</IconText>
+                <IconText>{weatherData.sunrise}</IconText>
               </AstroIconWrapper>
               <AstroIconWrapper mt="5px">
                 <AstroIcon src={Sunset} alt="Sunset" title="Sunset" />
-                <IconText>05:44 PM</IconText>
+                <IconText>{weatherData.sunset}</IconText>
               </AstroIconWrapper>
             </AstroWrapper>
           </BodyWrapper>
@@ -150,7 +192,7 @@ const Today = () => {
           title={
             <HeaderWrapper>
               <HeaderText>
-                Weather today in Bareilly, Uttar Pradesh, India
+                {`Weather today in ${weatherData.name}, ${weatherData.region}, ${weatherData.country}`}
               </HeaderText>
             </HeaderWrapper>
           }
@@ -164,28 +206,34 @@ const Today = () => {
                     <Thermostat />
                     <IconText>High / Low</IconText>
                   </IconWrapper>
-                  <IconText>36.1° / 15.9°</IconText>
+                  <IconText>
+                    {`${weatherData.maxTemp}° / ${weatherData.minTemp}°`}
+                  </IconText>
                 </ListIconItem>
                 <ListIconItem>
                   <IconWrapper>
                     <Opacity />
                     <IconText>Humidity</IconText>
                   </IconWrapper>
-                  <IconText>14%</IconText>
+                  <IconText>{`${weatherData.humidity}%`}</IconText>
                 </ListIconItem>
                 <ListIconItem>
                   <IconWrapper>
                     <Compress />
                     <IconText>Pressure</IconText>
                   </IconWrapper>
-                  <IconText>1011 mb</IconText>
+                  <IconText>
+                    {`${weatherData.pressure} ${weatherData.pressureUOM}`}
+                  </IconText>
                 </ListIconItem>
                 <ListIconItem>
                   <IconWrapper>
                     <Visibility />
                     <IconText>Visibility</IconText>
                   </IconWrapper>
-                  <IconText>10 km</IconText>
+                  <IconText>
+                    {`${weatherData.visibility} ${weatherData.visibilityUOM}`}
+                  </IconText>
                 </ListIconItem>
               </List>
             </ListContainer>
@@ -196,28 +244,28 @@ const Today = () => {
                     <Air />
                     <IconText>Wind</IconText>
                   </IconWrapper>
-                  <IconText>11.2 kph</IconText>
+                  <IconText>{`${weatherData.wind} ${weatherData.windUOM}`}</IconText>
                 </ListIconItem>
                 <ListIconItem>
                   <IconWrapper>
                     <Cloud />
                     <IconText>Cloud Cover</IconText>
                   </IconWrapper>
-                  <IconText>0%</IconText>
+                  <IconText>{`${weatherData.cloud}%`}</IconText>
                 </ListIconItem>
                 <ListIconItem>
                   <IconWrapper>
                     <Brightness5 />
                     <IconText>UV Index</IconText>
                   </IconWrapper>
-                  <IconText>8 of 10</IconText>
+                  <IconText>{`${weatherData.uv} of 10`}</IconText>
                 </ListIconItem>
                 <ListIconItem>
                   <IconWrapper>
                     <Brightness2 />
                     <IconText>Phase</IconText>
                   </IconWrapper>
-                  <IconText>Waning Gibbous</IconText>
+                  <IconText>{weatherData.moonPhase}</IconText>
                 </ListIconItem>
               </List>
             </ListContainer>
