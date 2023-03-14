@@ -12,9 +12,9 @@ import {
 export const SkeletonContainer = styled(Box)(() => ({
   width: "80vw",
   height: "75vh",
-  ml: "auto",
-  mr: "auto",
-  mt: 4,
+  marginLeft: "auto",
+  marginRight: "auto",
+  marginTop: "32px",
 }));
 
 export const TodaySkeleton = styled(Skeleton)(() => ({
