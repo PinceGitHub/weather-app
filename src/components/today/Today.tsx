@@ -125,6 +125,7 @@ const Today = () => {
       return fetchWeatherData(global.location);
     },
     {
+      refetchOnWindowFocus: true,
       onSuccess: (resp) => {
         if (resp.success) {
           handleOnSuccess(resp.data);
