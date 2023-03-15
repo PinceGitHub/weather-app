@@ -1,5 +1,26 @@
 import { styled } from "@mui/material/styles";
-import { Box, Stack, CardHeader, CardContent, Typography } from "@mui/material";
+import {
+  Box,
+  Skeleton,
+  Stack,
+  CardHeader,
+  CardContent,
+  Typography,
+} from "@mui/material";
+
+export const SkeletonContainer = styled(Box)(() => ({
+  width: "80vw",
+  height: "75vh",
+  marginLeft: "auto",
+  marginRight: "auto",
+  marginTop: "32px",
+}));
+
+export const HourlySkeleton = styled(Skeleton)(() => ({
+  width: "100%",
+  height: "calc(100vh + 150px)",
+  transformOrigin: "0 0%",
+}));
 
 export const HourlyContainer = styled(Box)(() => ({
   marginLeft: "auto",

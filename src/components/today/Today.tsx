@@ -31,22 +31,18 @@ import {
   Thermostat,
   Visibility,
 } from "@mui/icons-material";
+import { Card, List } from "@mui/material";
 import Sunrise from "./icons/sunrise.svg";
 import Sunset from "./icons/sunset.svg";
 import useGlobal from "../../hooks/useGlobal";
 import useSnackbar from "../../hooks/useSnackbar";
-import { useState } from "react";
-import { useQuery } from "react-query";
-import { Card, List } from "@mui/material";
-import { fetchWeatherData } from "../../services/weather";
+import { useState, useEffect } from "react";
 
 //types****************************************************
 type TodayType = {
   name: string;
   region: string;
   country: string;
-  latitude: number;
-  longitude: number;
   localTime: string;
   conditionText: string;
   conditionIcon: string;
@@ -75,77 +71,55 @@ const Today = () => {
   //states*****************************************************************
   const [weatherData, setWeatherData] = useState<TodayType | null>(null);
 
-  //success callback*******************************************************
-  const handleOnSuccess = (data: any) => {
-    try {
-      const location = data.location;
-      const current = data.current;
-      const day = data.forecast.forecastday[0].day;
-      const astro = data.forecast.forecastday[0].astro;
+  //effect*****************************************************************
+  useEffect(() => {
+    if (global.weatherData) {
+      try {
+        const location = global.weatherData.location;
+        const current = global.weatherData.current;
+        const day = global.weatherData.forecast.forecastday[0].day;
+        const astro = global.weatherData.forecast.forecastday[0].astro;
 
-      setWeatherData({
-        name: location.name,
-        region: location.region,
-        country: location.country,
-        latitude: location.lat,
-        longitude: location.lon,
-        localTime: location.localtime,
-        conditionText: current.condition.text,
-        conditionIcon: current.condition.icon,
-        sunrise: astro.sunrise,
-        sunset: astro.sunset,
-        moonPhase: astro.moon_phase,
-        humidity: current.humidity,
-        cloud: current.cloud,
-        uv: current.uv,
-        temp: global.uom === "C" ? current.temp_c : current.temp_f,
-        pressure:
-          global.uom === "C" ? current.pressure_mb : current.pressure_in,
-        pressureUOM: global.uom === "C" ? "mb" : "in",
-        visibility: global.uom === "C" ? current.vis_km : current.vis_miles,
-        visibilityUOM: global.uom === "C" ? "km" : "miles",
-        wind: global.uom === "C" ? current.wind_kph : current.wind_mph,
-        windUOM: global.uom === "C" ? "kph" : "mph",
-        maxTemp: global.uom === "C" ? day.maxtemp_c : day.maxtemp_f,
-        minTemp: global.uom === "C" ? day.mintemp_c : day.mintemp_f,
-      });
-    } catch (error: any) {
-      snackbar({
-        show: true,
-        messageType: "error",
-        message: error.message,
-      });
-    }
-  };
-
-  //fetch data*************************************************************
-  useQuery(
-    ["today-weather", global],
-    () => {
-      return fetchWeatherData(global.location);
-    },
-    {
-      refetchOnWindowFocus: true,
-      onSuccess: (resp) => {
-        if (resp.success) {
-          handleOnSuccess(resp.data);
-        } else {
-          snackbar({
-            show: true,
-            messageType: "error",
-            message: resp.data.message,
-          });
-        }
-      },
-      onError: (error: any) => {
+        setWeatherData({
+          name: location.name,
+          region: location.region,
+          country: location.country,
+          localTime: location.localtime,
+          conditionText: current.condition.text,
+          conditionIcon: current.condition.icon,
+          sunrise: astro.sunrise,
+          sunset: astro.sunset,
+          moonPhase: astro.moon_phase,
+          humidity: current.humidity,
+          cloud: current.cloud,
+          uv: current.uv,
+          temp: global.uom === "C" ? current.temp_c : current.temp_f,
+          pressure:
+            global.uom === "C" ? current.pressure_mb : current.pressure_in,
+          pressureUOM: global.uom === "C" ? "mb" : "in",
+          visibility: global.uom === "C" ? current.vis_km : current.vis_miles,
+          visibilityUOM: global.uom === "C" ? "km" : "miles",
+          wind: global.uom === "C" ? current.wind_kph : current.wind_mph,
+          windUOM: global.uom === "C" ? "kph" : "mph",
+          maxTemp: global.uom === "C" ? day.maxtemp_c : day.maxtemp_f,
+          minTemp: global.uom === "C" ? day.mintemp_c : day.mintemp_f,
+        });
+      } catch (error: any) {
         snackbar({
           show: true,
           messageType: "error",
           message: error.message,
         });
-      },
+      }
     }
-  );
+    // eslint-disable-next-line
+  }, [
+    global.uom,
+    global.location.city,
+    global.location.latitude,
+    global.location.longitude,
+    global.weatherData,
+  ]);
 
   return !weatherData ? (
     <SkeletonContainer>

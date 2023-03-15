@@ -16,7 +16,7 @@ const Appbar = () => {
   const handleOnChangeUOM = (uom: any) => {
     global.setGlobalState((prev) => ({
       ...prev,
-      uom,
+      uom: uom || "C",
     }));
   };
 

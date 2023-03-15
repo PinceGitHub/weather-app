@@ -9,11 +9,11 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <GlobalProvider>
-        <SnackbarProvider>
+      <SnackbarProvider>
+        <GlobalProvider>
           <Home />
-        </SnackbarProvider>
-      </GlobalProvider>
+        </GlobalProvider>
+      </SnackbarProvider>
       <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
     </QueryClientProvider>
   );
