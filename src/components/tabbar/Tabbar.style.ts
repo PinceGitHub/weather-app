@@ -1,5 +1,5 @@
 import { styled } from "@mui/material/styles";
-import { Box, Tabs, Tab } from "@mui/material";
+import { Box, Tabs, Tab, Skeleton } from "@mui/material";
 
 export const TabbarContainer = styled(Box)(() => ({
   "&": {
@@ -21,4 +21,18 @@ export const StyledTab = styled(Tab)(() => ({
   "&.Mui-selected": {
     color: "white",
   },
+}));
+
+export const HourlySkeletonContainer = styled(Box)(() => ({
+  width: "80vw",
+  height: "75vh",
+  marginLeft: "auto",
+  marginRight: "auto",
+  marginTop: "32px",
+}));
+
+export const HourlySkeleton = styled(Skeleton)(() => ({
+  width: "100%",
+  height: "calc(100vh + 150px)",
+  transformOrigin: "0 0%",
 }));
