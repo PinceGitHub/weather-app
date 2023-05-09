@@ -58,11 +58,11 @@ const Search = () => {
 
   //effects*****************************************
   useEffect(() => {
-    const handleSearchCities = async () => {
+    const handleSearchCities = setTimeout(async () => {
       await searchCities();
-    };
+    }, 2000);
 
-    handleSearchCities();
+    return () => clearTimeout(handleSearchCities);
     // eslint-disable-next-line
   }, [searchTerm]);
 
