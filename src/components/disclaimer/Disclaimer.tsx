@@ -24,12 +24,12 @@ const Disclaimer = () => {
   const [showDisclaimer, setShowDisclaimer] = useState<boolean>(false);
 
   const handleClose = () => {
-    sessionStorage.setItem("DISCLAIMER", "agreed");
+    sessionStorage.setItem("DISCLAIMER_WAPP", "agreed");
     setShowDisclaimer(false);
   };
 
   useEffect(() => {
-    const disclaimerConsent = sessionStorage.getItem("DISCLAIMER");
+    const disclaimerConsent = sessionStorage.getItem("DISCLAIMER_WAPP");
     if (!disclaimerConsent) setShowDisclaimer(true);
 
     // eslint-disable-next-line
