@@ -233,7 +233,7 @@ const Today = () => {
                     <Brightness5 />
                     <IconText>UV Index</IconText>
                   </IconWrapper>
-                  <IconText>{`${weatherData.uv} of 10`}</IconText>
+                  <IconText>{weatherData.uv}</IconText>
                 </ListIconItem>
                 <ListIconItem>
                   <IconWrapper>

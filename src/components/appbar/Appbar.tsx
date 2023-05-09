@@ -6,6 +6,7 @@ import {
   SearchContainer,
   UOMWrapper,
   UOMToggleButton,
+  AppIcon,
 } from "./Appbar.style";
 import Search from "../search/Search";
 import useGlobal from "../../hooks/useGlobal";
@@ -27,6 +28,7 @@ const Appbar = () => {
           <AppTitle variant="h6" noWrap>
             Weather App
           </AppTitle>
+          <AppIcon />
           <SearchContainer>
             <Search />
           </SearchContainer>

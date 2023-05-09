@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 
 export const SkeletonContainer = styled(Box)(() => ({
-  width: "80vw",
+  width: "95vw",
   height: "75vh",
   marginLeft: "auto",
   marginRight: "auto",
@@ -27,7 +27,7 @@ export const TodayContainer = styled(Box)(() => ({
   marginLeft: "auto",
   marginRight: "auto",
   padding: "25px 0",
-  width: "80vw",
+  width: "95vw",
 }));
 
 export const HeaderContainer = styled(CardHeader)(() => ({

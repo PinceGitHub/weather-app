@@ -24,7 +24,7 @@ export const StyledTab = styled(Tab)(() => ({
 }));
 
 export const HourlySkeletonContainer = styled(Box)(() => ({
-  width: "80vw",
+  width: "95vw",
   height: "75vh",
   marginLeft: "auto",
   marginRight: "auto",

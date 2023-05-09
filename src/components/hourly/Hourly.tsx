@@ -26,7 +26,6 @@ import {
   HourlySkeleton,
 } from "./Hourly.style";
 import {
-  Air,
   ExpandMore,
   Umbrella,
   Brightness5,
@@ -189,10 +188,10 @@ const Hourly = () => {
                       <Umbrella />
                       <Typography>{`${value.chanceOfRain}%`}</Typography>
                     </SummaryIconWrapper>
-                    <SummaryIconWrapper flex="1">
+                    {/* <SummaryIconWrapper flex="1">
                       <Air />
                       <Typography>{`${value.windDir} ${value.wind} ${value.windUOM}`}</Typography>
-                    </SummaryIconWrapper>
+                    </SummaryIconWrapper> */}
                   </SummaryWrapper>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -240,7 +239,7 @@ const Hourly = () => {
                         <Brightness5 sx={{ mr: 1 }} />
                         <DetailIconWrapper>
                           <Typography>UV Index</Typography>
-                          <IconText>{`${value.uv} of 10`}</IconText>
+                          <IconText>{value.uv}</IconText>
                         </DetailIconWrapper>
                       </DetailItem>
                     </DetailBottom>

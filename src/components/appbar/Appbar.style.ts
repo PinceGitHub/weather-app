@@ -1,5 +1,6 @@
 import { styled } from "@mui/material/styles";
 import { AppBar, Stack, Typography, Box, ToggleButton } from "@mui/material";
+import { CloudCircle } from "@mui/icons-material";
 
 export const AppbarContainer = styled(AppBar)(() => ({
   position: "static",
@@ -20,6 +21,16 @@ export const AppTitle = styled(Typography)(({ theme }) => ({
   [theme.breakpoints.up("sm")]: {
     flex: "1",
     display: "block",
+  },
+}));
+
+export const AppIcon = styled(CloudCircle)(({ theme }) => ({
+  [theme.breakpoints.up("xs")]: {
+    display: "block",
+    flex: "0.5",
+  },
+  [theme.breakpoints.up("sm")]: {
+    display: "none",
   },
 }));
 
